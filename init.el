@@ -153,6 +153,7 @@
   (interactive)
   (if (seq-filter (lambda (ext) (cl-search ext (buffer-name))) '(".el" ".lisp" "sly-mrepl for sbcl"))
       (cond ((eq (char-before) #x20) (delete-horizontal-space t)) ; Space
+	    ((eq (char-before) #x9) (delete-horizontal-space t)) ; Tab
 	    ((eq (char-before) #xa)  (backward-delete-char-untabify 1)) ; New line
 	    ((and (eq (char-before)               #x22)   (eq (char-after) #x22)) (paredit-splice-sexp-killing-backward)) ; "" - inside empty string
 	    ((and (eq (char-before)               #x28)   (eq (char-after) #x29)) (paredit-splice-sexp-killing-backward)) ; () - inside empty brackets
