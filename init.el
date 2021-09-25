@@ -13,12 +13,9 @@
 
 (global-git-gutter-mode 1)
 
-(defun turn-on-fci-hook ()
-  (set-fill-column 120)
-  (turn-on-fci-mode))
-
-(add-hook 'prog-mode-hook 'turn-on-fci-hook)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
+;; (defun turn-on-fci-hook ()
+;;   (set-fill-column 120)
+;;   (turn-on-fci-mode))
 
 ;;(setq tab-always-indent 'complete)
 
@@ -37,7 +34,17 @@
 (add-hook 'after-init-hook (lambda ()
 			     (setq helm-split-window-in-side-p t)
 			     (neotree-dir "~")
-			     (setq neo-window-fixed-size nil)))
+			     (setq neo-window-fixed-size nil)
+
+			     (remove-hook 'lisp-mode-hook 'slime-lisp-mode-hook)
+			     ;; (add-hook 'prog-mode-hook 'turn-on-fci-hook)
+			     ))
+
+(add-hook 'lisp-mode-hook (lambda (&rest _)
+			    (enable-paredit-mode)
+			    (sly-editing-mode)))
+
+(which-key-mode 1)
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (rainbow-mode 1)
@@ -46,8 +53,8 @@
 
 (highlight-parentheses-mode 1)
 (show-paren-mode 1)
-;; (nyan-mode 1)
-;; (nyan-start-animation)
+; (nyan-mode 1)
+; (nyan-start-animation)
 
 (setq scroll-conservatively 2)
 
@@ -83,8 +90,6 @@
   (interactive)
   (set-rectangular-region-anchor))
 
-(remove-hook 'lisp-mode-hook 'slime-lisp-mode-hook)
-
 (define-minor-mode my-lisp-repl
   "Overrides arrows in SBCL REPL."
   :lighter " my-repl"
@@ -109,7 +114,7 @@
  '(global-display-fill-column-indicator-mode t)
  '(helm-autoresize-mode t)
  '(package-selected-packages
-   '(good-scroll lsp-haskell doom-themes smooth-scrolling sly-repl-ansi-color geiser-racket geiser paredit helm-projectile projectile sublimity minimap rainbow-mode multiple-cursors company-quickhelp yasnippet powerline helm swiper ivy atom-dark-theme all-the-icons nyan-mode yascroll highlight-parentheses sly-quicklisp sly-hello-world rainbow-delimiters neotree monokai-pro-theme fill-column-indicator evil company))
+   '(which-key good-scroll lsp-haskell doom-themes smooth-scrolling sly-repl-ansi-color geiser-racket geiser paredit helm-projectile projectile sublimity minimap rainbow-mode multiple-cursors company-quickhelp yasnippet powerline helm swiper ivy atom-dark-theme all-the-icons nyan-mode yascroll highlight-parentheses sly-quicklisp sly-hello-world rainbow-delimiters neotree monokai-pro-theme fill-column-indicator evil company))
  '(safe-local-variable-values
    '((Log . clx\.log)
      (Package . Xlib)
@@ -162,6 +167,31 @@
     (cond ((eq (char-before) #x20) (delete-horizontal-space t)) ; Space
 	  ((eq (char-before) #xa)  (backward-delete-char-untabify 1)) ; New line
 	  (t (backward-kill-word 1))))); Anything else
+
+(defun ctrl-x ()
+  (interactive)
+  (if (use-region-p)
+      (kill-region)
+    (progn
+	(move-beginning-of-line 1)
+	(kill-line)
+	(backward-delete-char 1))))
+
+(defun ctrl-enter ()
+  (interactive)
+  (move-end-of-line 1)
+  (newline))
+
+(defun ctrl-shift-enter ()
+  (interactive)
+  (move-beginning-of-line 1)
+  (newline)
+  (backward-char))
+
+;; (setq cua-enable-cua-keys nil)
+
+;; (global-set-key (kbd "<C-return>") 'ctrl-enter)
+;; (global-set-key (kbd "<C-S-return>") 'ctrl-enter)
 
 (global-set-key (kbd "<M-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "<C-backspace>") 'better-backward-kill-word)
