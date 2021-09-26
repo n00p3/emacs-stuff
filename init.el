@@ -13,6 +13,7 @@
 
 (global-git-gutter-mode 1)
 
+(set-fill-column 120)
 ;; (defun turn-on-fci-hook ()
 ;;   (set-fill-column 120)
 ;;   (turn-on-fci-mode))
@@ -53,6 +54,8 @@
 
 (highlight-parentheses-mode 1)
 (show-paren-mode 1)
+(set-face-foreground 'show-paren-match "#000000")
+(set-face-background 'show-paren-match "#77FF77")
 ; (nyan-mode 1)
 ; (nyan-start-animation)
 
@@ -136,7 +139,7 @@
  '(rainbow-delimiters-depth-7-face ((t (:foreground "#FEB144"))))
  '(rainbow-delimiters-depth-8-face ((t (:foreground "#FDFD97"))))
  '(rainbow-delimiters-depth-9-face ((t (:foreground "#9EE09E"))))
- '(rainbow-delimiters-unmatched-face ((t (:background "#FF6663")))))
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "#000000") (:background "#FF6663")))))
 
 (centaur-tabs-mode 1)
 (global-set-key (kbd "<C-tab>") 'centaur-tabs-forward)
@@ -162,7 +165,7 @@
 	    ((eq (char-before) #xa)  (backward-delete-char-untabify 1)) ; New line
 	    ((and (eq (char-before)               #x22)   (eq (char-after) #x22)) (paredit-splice-sexp-killing-backward)) ; "" - inside empty string
 	    ((and (eq (char-before)               #x28)   (eq (char-after) #x29)) (paredit-splice-sexp-killing-backward)) ; () - inside empty brackets
-	    ((and (eq (char-before (1- (point))) #x28)    (eq (char-after) #x29)) (delete-backward-char 2)) ; () - in front of empty brackets
+	    ((and (eq (char-before (1- (point))) #x28)    (eq (char-before) #x29)) (delete-backward-char 2)) ; () - in front of empty brackets
 	    (t (paredit-backward-kill-word)))
     (cond ((eq (char-before) #x20) (delete-horizontal-space t)) ; Space
 	  ((eq (char-before) #xa)  (backward-delete-char-untabify 1)) ; New line
@@ -170,9 +173,22 @@
 
 (defun ctrl-x ()
   (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (backward-delete-char 1))
+  (if (and (eq (char-before) #xa)
+	   (eq (char-after)  #xa)) ;; Return key.
+      (backward-delete-char 1)
+    (progn
+      (move-beginning-of-line 1)
+      (kill-line)
+      (backward-delete-char 1))))
+
+(defun ctrl-c ()
+  (interactive)
+  (if (not (region-active-p))
+      (let ((curr-pos (point)))
+	(move-beginning-of-line 1)
+	(kill-line)
+	(yank)
+	(goto-char curr-pos))))
 
 (defun ctrl-enter ()
   (interactive)
@@ -190,9 +206,11 @@
 (define-key cua-global-keymap (kbd "<C-S-return>") 'ctrl-shift-enter)
 
 (global-set-key (kbd "C-S-v") 'helm-show-kill-ring)
+(global-set-key (kbd "C-S-x") 'ctrl-x)
+(global-set-key (kbd "C-S-c") 'ctrl-c)
 (global-set-key (kbd "<M-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "<C-backspace>") 'better-backward-kill-word)
-(global-set-key (kbd "C-S-k") 'ctrl-x)
+
 
 (push 'sly-repl-ansi-color sly-contribs)
 
