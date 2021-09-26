@@ -189,6 +189,7 @@
 (define-key cua-global-keymap (kbd "<C-return>") 'ctrl-enter)
 (define-key cua-global-keymap (kbd "<C-S-return>") 'ctrl-shift-enter)
 
+(global-set-key (kbd "C-S-v") 'helm-show-kill-ring)
 (global-set-key (kbd "<M-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "<C-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "C-S-k") 'ctrl-x)
