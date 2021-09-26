@@ -170,12 +170,9 @@
 
 (defun ctrl-x ()
   (interactive)
-  (if (use-region-p)
-      (kill-region)
-    (progn
-	(move-beginning-of-line 1)
-	(kill-line)
-	(backward-delete-char 1))))
+  (move-beginning-of-line 1)
+  (kill-line)
+  (backward-delete-char 1))
 
 (defun ctrl-enter ()
   (interactive)
@@ -189,12 +186,12 @@
   (backward-char))
 
 ;; (setq cua-enable-cua-keys nil)
-
-;; (global-set-key (kbd "<C-return>") 'ctrl-enter)
-;; (global-set-key (kbd "<C-S-return>") 'ctrl-enter)
+(define-key cua-global-keymap (kbd "<C-return>") 'ctrl-enter)
+(define-key cua-global-keymap (kbd "<C-S-return>") 'ctrl-shift-enter)
 
 (global-set-key (kbd "<M-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "<C-backspace>") 'better-backward-kill-word)
+(global-set-key (kbd "C-S-k") 'ctrl-x)
 
 (push 'sly-repl-ansi-color sly-contribs)
 
