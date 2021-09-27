@@ -37,6 +37,9 @@
 			     (neotree-dir "~")
 			     (setq neo-window-fixed-size nil)
 
+			     (set-face-foreground 'show-paren-match "#000000")
+			     (set-face-background 'show-paren-match "#77FF77")
+
 			     (remove-hook 'lisp-mode-hook 'slime-lisp-mode-hook)
 			     ;; (add-hook 'prog-mode-hook 'turn-on-fci-hook)
 			     ))
@@ -54,8 +57,7 @@
 
 (highlight-parentheses-mode 1)
 (show-paren-mode 1)
-(set-face-foreground 'show-paren-match "#000000")
-(set-face-background 'show-paren-match "#77FF77")
+
 ; (nyan-mode 1)
 ; (nyan-start-animation)
 
@@ -210,7 +212,15 @@
 (global-set-key (kbd "C-S-c") 'ctrl-c)
 (global-set-key (kbd "<M-backspace>") 'better-backward-kill-word)
 (global-set-key (kbd "<C-backspace>") 'better-backward-kill-word)
+(global-set-key (kbd "C-S-f") 'rgrep)
 
+(setq frame-title-format
+      '(buffer-file-name "%f" ; File buffer
+			 (dired-directory
+			  dired-directory ; Dired buffer
+			  (revert-buffer-function
+			   "%b" ; Buffer Menu
+			   ("%b - Dir: " default-directory)))))
 
 (push 'sly-repl-ansi-color sly-contribs)
 
