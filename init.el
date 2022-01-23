@@ -16,7 +16,7 @@
  '(global-display-fill-column-indicator-mode t)
  '(helm-autoresize-mode t)
  '(package-selected-packages
-   '(common-lisp-snippets indium eslint-fix tide gtk-variant lsp-mode all-the-icons-ibuffer all-the-icons-dired sly atom-one-dark-theme centaur-tabs which-key lsp-haskell sly-repl-ansi-color geiser-racket geiser paredit helm-projectile projectile rainbow-mode multiple-cursors company-quickhelp yasnippet powerline helm atom-dark-theme all-the-icons nyan-mode highlight-parentheses sly-quicklisp sly-hello-world rainbow-delimiters neotree monokai-pro-theme fill-column-indicator evil company))
+   '(scroll-restore undo-tree common-lisp-snippets indium eslint-fix tide gtk-variant lsp-mode all-the-icons-ibuffer all-the-icons-dired sly atom-one-dark-theme centaur-tabs which-key lsp-haskell sly-repl-ansi-color geiser-racket geiser paredit helm-projectile projectile rainbow-mode multiple-cursors company-quickhelp yasnippet powerline helm atom-dark-theme all-the-icons nyan-mode highlight-parentheses sly-quicklisp sly-hello-world rainbow-delimiters neotree monokai-pro-theme fill-column-indicator evil company))
  '(safe-local-variable-values
    '((Log . clx\.log)
      (Package . Xlib)
@@ -228,7 +228,9 @@
 (global-set-key (kbd "C-w") 'kill-this-buffer)
 
 (global-set-key (kbd "C-;") 'other-window)
-(global-set-key (kbd "C-'") 'delete-other-windows) 
+(global-set-key (kbd "C-'") 'delete-other-windows)
+
+(global-set-key [mouse-1] 'push-button) ; Left clicking on buttons in SLY debugger.
 
 ;; ========== Melpa ==========
 
